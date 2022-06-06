@@ -8,7 +8,6 @@ import {
   redirect,  
   getActionData,
   getLoaderData,
-  getRouteContext,
   getRouter,
 } from 'remix-router-angular';
 
@@ -46,6 +45,10 @@ export const loader: LoaderFunction = async () => {
     Loader Data: {{ loaderData$ | async | json }}
 
     <hr />
+
+    1. Submit the form without entering a name to see the action data containing the validation message.<br>
+    2. Enter a name and submit to be redirected back to home with the name in the query params.
+
     <form novalidate (submit)="onSubmit($event)">
       <div>Name: <input type="name" name="name" /></div>
 
@@ -54,7 +57,6 @@ export const loader: LoaderFunction = async () => {
   `,
 })
 export class AboutComponent {
-  context = getRouteContext();
   loaderData$ = getLoaderData();
   actionData$ = getActionData();
   router = getRouter();
