@@ -1,17 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+
 import {
   ActionFunction,
   LoaderFunction,
   json,
-  redirect,
-} from '@remix-run/router';
-
-import {
+  redirect,  
   getActionData,
   getLoaderData,
   getRouteContext,
-  Router,
+  getRouter,
 } from 'remix-router-angular';
 
 export const action: ActionFunction = async ({ request }) => {
@@ -59,8 +57,7 @@ export class AboutComponent {
   context = getRouteContext();
   loaderData$ = getLoaderData();
   actionData$ = getActionData();
-
-  constructor(public router: Router) {}
+  router = getRouter();
 
   onSubmit($event: any) {
     $event.preventDefault();

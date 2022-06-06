@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Outlet, Router } from 'remix-router-angular';
+import { getRouter, Outlet } from 'remix-router-angular';
 
 @Component({
   selector: 'home',
@@ -23,8 +23,8 @@ import { Outlet, Router } from 'remix-router-angular';
   ],
 })
 export class ParentComponent {
-  constructor(private router: Router) {}
-  
+  router = getRouter();
+
   child(num: string) {
     this.router.navigate(`/parent/${num}`);
   }

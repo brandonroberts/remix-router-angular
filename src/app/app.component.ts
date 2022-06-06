@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Outlet, Router } from 'remix-router-angular';
+import { getRouter, Outlet } from 'remix-router-angular';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +24,7 @@ import { Outlet, Router } from 'remix-router-angular';
   ],
 })
 export class AppComponent {
-  constructor(private router: Router) {}
+  router = getRouter();
 
   goHome() {
     this.router.navigate('/');

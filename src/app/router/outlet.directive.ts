@@ -1,18 +1,19 @@
-import { Directive, Injector, Type, ViewContainerRef } from '@angular/core';
+import { Directive, inject, Injector, Type, ViewContainerRef } from '@angular/core';
 import { DataRouteMatch, RouterState } from '@remix-run/router';
 import { Subject, takeUntil, tap } from 'rxjs';
-import { getRouteContext, Router, ROUTE_CONTEXT } from './router.service';
+
+import { getRouteContext, getRouter, ROUTE_CONTEXT } from './router.service';
 
 @Directive({
   selector: 'outlet',
   standalone: true,
 })
 export class Outlet {
+  private destroy$ = new Subject();
   private cmp!: Type<any>;
   private context? = getRouteContext();
-  private destroy$ = new Subject();
-
-  constructor(private router: Router, private vcr: ViewContainerRef) {}
+  private router = getRouter();
+  private vcr = inject(ViewContainerRef);
 
   ngOnInit() {
     this.setUpListener();

@@ -28,6 +28,10 @@ export const ROUTE_CONTEXT = new InjectionToken<{
   params: Params;
 }>('Route Context');
 
+export function getRouter() {
+  return inject(Router);
+}
+
 export function getRouteContext() {
   return inject(ROUTE_CONTEXT, InjectFlags.Optional | InjectFlags.SkipSelf);
 }

@@ -1,4 +1,4 @@
-import { RouteObject } from '@remix-run/router';
+import { RouteObject } from 'remix-router-angular';
 
 import {
   AboutComponent,
