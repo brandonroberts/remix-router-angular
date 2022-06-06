@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { getRouter, Outlet } from 'remix-router-angular';
 
 @Component({
-  selector: 'home',
+  selector: 'parent',
   standalone: true,
   imports: [Outlet],
   template: `

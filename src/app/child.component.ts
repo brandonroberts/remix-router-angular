@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { getRouteParams } from 'remix-router-angular';
 
 @Component({
-  selector: 'home',
+  selector: 'child',
   standalone: true,
   imports: [CommonModule],
   template: ` Child {{ (params$ | async)?.child }}`,
