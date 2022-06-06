@@ -1,29 +1,30 @@
-import { AboutComponent } from './about.component';
+import { RouteObject } from '@remix-run/router';
+
+import {
+  AboutComponent,
+  loader as aboutLoader,
+  action as aboutAction,
+} from './about.component';
 import { HomeComponent } from './home.component';
-import { json, redirect, RouteObject } from '@remix-run/router';
+import { ParentComponent } from './parent.component';
+import { ChildComponent } from './child.component';
 
 export const routes: RouteObject[] = [
   { path: '/', element: HomeComponent },
   {
+    path: '/parent',
+    element: ParentComponent,
+    children: [
+      {
+        path: ':child',
+        element: ChildComponent,
+      },
+    ],
+  },
+  {
     path: '/about',
     element: AboutComponent,
-    action: async({ request }) => {
-      const formData = await request.formData();
-      const name = formData.get('name');
-
-      if (!name) {
-        return {
-          name: 'Name is required'
-        }
-      }
-      
-      return redirect(`/?name=${name}`);
-    },
-    loader: async() => {
-      const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-      const todos = await res.json();
-
-      return json({ todos });
-    }
-  }
+    action: aboutAction,
+    loader: aboutLoader,
+  },
 ];

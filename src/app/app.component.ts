@@ -1,19 +1,27 @@
-import { Component, Type, ViewContainerRef } from '@angular/core';
-import { Outlet } from './outlet.component';
-import { Router } from './router.service';
+import { Component } from '@angular/core';
+
+import { Outlet, Router } from 'remix-router-angular';
 
 @Component({
   selector: 'app-root',
   template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <button (click)="goHome()">Home</button>
-    <button (click)="goAbout()">About</button>
-    
+    <a (click)="goHome()">Home</a> |
+    <a (click)="goAbout()">About</a> |
+    <a (click)="goNested()">Nested</a>
+
+    <br /><br />
+
     <outlet></outlet>
   `,
-  styles: [],
   imports: [Outlet],
-  standalone: true
+  standalone: true,
+  styles: [
+    `
+      a {
+        text-decoration: underline;
+      }
+    `,
+  ],
 })
 export class AppComponent {
   constructor(private router: Router) {}
@@ -24,5 +32,9 @@ export class AppComponent {
 
   goAbout() {
     this.router.navigate('/about');
+  }
+
+  goNested() {
+    this.router.navigate('/parent/child');
   }
 }

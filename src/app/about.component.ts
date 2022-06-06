@@ -1,33 +1,65 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { getRouteContext, Router } from './router.service';
+import {
+  ActionFunction,
+  LoaderFunction,
+  json,
+  redirect,
+} from '@remix-run/router';
+
+import {
+  getActionData,
+  getLoaderData,
+  getRouteContext,
+  Router,
+} from 'remix-router-angular';
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const name = formData.get('name');
+
+  if (!name) {
+    return {
+      name: 'Name is required',
+    };
+  }
+
+  return redirect(`/?name=${name}`);
+};
+
+export const loader: LoaderFunction = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+  const todos = await res.json();
+
+  return json({ todos });
+};
 
 @Component({
   selector: 'about',
   standalone: true,
   imports: [CommonModule],
   template: `
-    About Remixing Routing in Angular
-    
-    <hr>
-    Action Data: {{ router.actionData && router.actionData[routeId] | json }}
-    
-    <hr>
-    Loader Data: {{ router.loaderData[routeId] | json }}
-    
-    <hr>
+    Remixing Routing in Angular
+
+    <hr />
+    Action Data: {{ actionData$ | async | json }}
+
+    <hr />
+    Loader Data: {{ loaderData$ | async | json }}
+
+    <hr />
     <form novalidate (submit)="onSubmit($event)">
-      <div>
-        Name: <input type="name" name="name" />
-      </div>
+      <div>Name: <input type="name" name="name" /></div>
 
       <button type="submit">Submit</button>
     </form>
-  `
+  `,
 })
 export class AboutComponent {
   context = getRouteContext();
-  routeId = this.context!.id;
+  loaderData$ = getLoaderData();
+  actionData$ = getActionData();
+
   constructor(public router: Router) {}
 
   onSubmit($event: any) {
@@ -35,7 +67,7 @@ export class AboutComponent {
 
     this.router.navigate('/about', {
       formMethod: 'post',
-      formData: new FormData($event.target)
+      formData: new FormData($event.target),
     });
   }
 }
