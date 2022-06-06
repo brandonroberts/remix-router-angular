@@ -1425,6 +1425,11 @@
     node-gyp "^8.4.1"
     read-package-json-fast "^2.0.3"
 
+"@remix-run/router@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-0.1.0.tgz#9dee1610f5ba730e4c67e5de517912f71c627031"
+  integrity sha512-mK2wZWAFsijTGIk7ZhKvEAzU7qIS6F6RhPy5AiEosaEs3mB3J2NvUWRoN3W74V+5Jju/AisT5NaM2pIbnfGXWg==
+
 "@schematics/angular@14.0.0":
   version "14.0.0"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-14.0.0.tgz#de6cb4c86586ed5b06adfd7a759cc9908e627787"
