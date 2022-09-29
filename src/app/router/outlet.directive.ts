@@ -1,8 +1,19 @@
-import { Directive, inject, Injector, Type, ViewContainerRef } from '@angular/core';
-import { DataRouteMatch, RouterState } from '@remix-run/router';
+import {
+  Directive,
+  inject,
+  Injector,
+  Type,
+  ViewContainerRef,
+} from '@angular/core';
+import { RouterState } from '@remix-run/router';
 import { Subject, takeUntil, tap } from 'rxjs';
 
-import { getRouteContext, getRouter, ROUTE_CONTEXT } from './router.service';
+import {
+  DataRouteMatch,
+  getRouteContext,
+  getRouter,
+  ROUTE_CONTEXT,
+} from './router.service';
 
 @Directive({
   selector: 'outlet',
@@ -57,14 +68,14 @@ export class Outlet {
     return injector;
   }
 
-  getMatch(routerState: RouterState) {
+  getMatch(routerState: RouterState): DataRouteMatch {
     const { matches } = routerState;
     const idx = matches.findIndex(
       (match) => match.route.id === this.context?.id
     );
     const matchesToRender = matches[idx + 1];
 
-    return matchesToRender;
+    return matchesToRender as DataRouteMatch;
   }
 
   ngOnDestroy() {

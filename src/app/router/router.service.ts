@@ -1,21 +1,41 @@
-import { inject, Injectable, InjectFlags, InjectionToken } from '@angular/core';
 import {
-  createBrowserRouter,
-  NavigateOptions,
+  inject,
+  Injectable,
+  InjectFlags,
+  InjectionToken,
+  Type,
+} from '@angular/core';
+import {
   Params,
-  RouteObject,
+  AgnosticRouteObject as RemixRouteObject,
+  AgnosticDataRouteMatch as RemixDataRouteMatch,
   RouterState,
+  Router as RemixRouter,
+  createBrowserHistory,
+  createRouter,
+  RouterNavigateOptions,
 } from '@remix-run/router';
 import { BehaviorSubject, filter, map } from 'rxjs';
 
+export type RouteObject = RemixRouteObject & {
+  element: Type<any>;
+  children?: RouteObject[];
+};
+
+export type DataRouteMatch = RemixDataRouteMatch & {
+  route: { element: Type<any> };
+};
+
 export const ROUTES = new InjectionToken<RouteObject[]>('ROUTES');
 
-export const REMIX_ROUTER = new InjectionToken('Remix Router', {
+export const REMIX_ROUTER = new InjectionToken<RemixRouter>('Remix Router', {
   providedIn: 'root',
   factory() {
     const routes = inject(ROUTES);
-    const router = createBrowserRouter({
+    const history = createBrowserHistory();
+    const router = createRouter({
       routes,
+      history,
     });
     router.initialize();
     return router;
@@ -84,7 +104,7 @@ export class Router {
     return this._remixRouter.state;
   }
 
-  navigate(path: string, opts?: NavigateOptions) {
+  navigate(path: string, opts?: RouterNavigateOptions) {
     this._remixRouter.navigate(path, opts);
   }
 }
